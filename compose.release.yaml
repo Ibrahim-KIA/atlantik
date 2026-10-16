@@ -1,0 +1,9 @@
+services:
+  migrate:
+    image: ${ATLANTIK_IMAGE:?Set immutable release image}
+  api:
+    image: ${ATLANTIK_IMAGE:?Set immutable release image}
+  worker:
+    image: ${ATLANTIK_IMAGE:?Set immutable release image}
+  scheduler:
+    image: ${ATLANTIK_IMAGE:?Set immutable release image}

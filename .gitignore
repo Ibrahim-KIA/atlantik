@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.env*
+!.env.example
+coverage/
+
+.local/
+
+# Managed workspace files and unrelated session data
+.agents/
+.aws/
+.codex/
+shared/
+scratch/
+library-files/
+
+exports/

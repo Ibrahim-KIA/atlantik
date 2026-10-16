@@ -1,0 +1,36 @@
+name: Atlantik deploy
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        options: [staging, production]
+        required: true
+      image:
+        description: Accepted immutable ghcr.io image tag or digest
+        required: true
+      acceptance_reference:
+        description: Staging acceptance / rollback drill approval reference
+        required: true
+permissions:
+  contents: read
+concurrency:
+  group: deploy-${{ inputs.environment }}
+  cancel-in-progress: false
+jobs:
+  deploy:
+    environment: ${{ inputs.environment }}
+    runs-on: [self-hosted, "${{ inputs.environment }}"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy with host-managed secrets
+        env:
+          ATLANTIK_IMAGE: ${{ inputs.image }}
+          APP_ENV: ${{ inputs.environment }}
+          ENV_FILE: ${{ vars.ATLANTIK_ENV_FILE }}
+        run: |
+          test -n "$ENV_FILE" && test -r "$ENV_FILE"
+          install -m 600 "$ENV_FILE" .env
+          bash scripts/deploy.sh
+      - if: always()
+        run: rm -f .env

@@ -1,0 +1,38 @@
+{
+  "name": "atlantik",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/main.ts",
+    "build": "tsc",
+    "start": "node dist/main.js",
+    "worker": "tsx src/worker.ts",
+    "migrate": "tsx src/migrate.ts",
+    "test": "node --import tsx --test tests/*.test.ts",
+    "check": "tsc --noEmit",
+    "lint": "prettier --check src tests scripts/*.ts docs/*.md package.json tsconfig.json .github/workflows/*.yml",
+    "format": "prettier --write src tests scripts/*.ts docs/*.md package.json tsconfig.json .github/workflows/*.yml",
+    "docs:api": "node --import tsx scripts/generate-api.ts",
+    "test:integration": "bash scripts/test-services.sh && node --env-file=.local/test.env --import tsx --test tests/integration.test.ts",
+    "test:failures": "RUN_DOCKER_FAILURE_TESTS=1 node --env-file=.local/test.env --import tsx --test tests/outages.test.ts",
+    "scheduler": "tsx src/scheduler.ts",
+    "test:smoke": "tsx scripts/smoke.ts"
+  },
+  "dependencies": {
+    "@fastify/helmet": "^13.0.2",
+    "fastify": "^5.6.1",
+    "ioredis": "^5.8.1",
+    "nodemailer": "^10.1.1",
+    "pg": "^8.16.3",
+    "zod": "^4.1.11"
+  },
+  "devDependencies": {
+    "@types/node": "^24.7.2",
+    "@types/nodemailer": "^7.0.2",
+    "@types/pg": "^8.15.5",
+    "prettier": "^3.9.10",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}
